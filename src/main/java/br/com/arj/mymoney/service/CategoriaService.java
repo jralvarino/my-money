@@ -19,6 +19,7 @@ public class CategoriaService {
 	public CategoriaEntity novaCategoria(String nome) {
 		CategoriaEntity categoriaEntity = new CategoriaEntity();
 		categoriaEntity.setNome(nome);
+		
 		return categoriaRepository.save(categoriaEntity);
 	}
 
