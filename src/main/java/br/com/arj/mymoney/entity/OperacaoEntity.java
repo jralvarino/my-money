@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,10 +41,11 @@ public class OperacaoEntity {
 	private boolean pago;
 	
 	@Convert(converter = TipoOperacaoConverter.class)
+	@Enumerated()
 	private TipoOperacaoEnum tipo;
 	
 	private String observacao;
-	
+		
 	private Date dataVencimento;
 	
 	@ManyToOne

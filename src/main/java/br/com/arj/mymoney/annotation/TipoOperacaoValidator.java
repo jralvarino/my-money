@@ -9,7 +9,7 @@ public class TipoOperacaoValidator implements ConstraintValidator<TipoOperacao, 
 
 	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext context) {
-		if(TipoOperacaoEnum.getFromCode(value) == null) {
+		if(TipoOperacaoEnum.getFromCode(1) == null) {
 			return false;
 		}
 		

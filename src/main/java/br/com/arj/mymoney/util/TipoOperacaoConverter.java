@@ -8,7 +8,7 @@ public class TipoOperacaoConverter implements AttributeConverter<TipoOperacaoEnu
 
     @Override
     public Integer convertToDatabaseColumn(TipoOperacaoEnum attribute) {
-        return attribute.getCode();
+	        return attribute.getCode();
     }
 
     @Override

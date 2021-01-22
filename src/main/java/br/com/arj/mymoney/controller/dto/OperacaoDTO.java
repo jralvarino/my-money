@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import br.com.arj.mymoney.annotation.TipoOperacao;
+import br.com.arj.mymoney.constant.TipoOperacaoEnum;
 import br.com.arj.mymoney.entity.ContaEntity;
 import br.com.arj.mymoney.entity.PessoaEntity;
 import br.com.arj.mymoney.entity.SubCategoriaEntity;
@@ -23,7 +25,7 @@ import lombok.Setter;
 public class OperacaoDTO {
 
 	@NotEmpty(message = "Descrição é obrigatória")
-	@Size(min = 1, max = 10, message = "Descrição deve conter entre {min} e {max} caracteres")
+	@Size(min = 1, max = 255, message = "Descrição deve conter entre {min} e {max} caracteres")
 	private String descricao;
 	
 	@NotNull(message = "Valor é obrigatório")
