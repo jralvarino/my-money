@@ -14,14 +14,17 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tbpessoa")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PessoaEntity {
-	
+
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column
 	private String nome;
 

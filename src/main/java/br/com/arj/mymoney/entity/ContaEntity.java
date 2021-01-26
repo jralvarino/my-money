@@ -16,23 +16,26 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tbconta")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContaEntity {
-	
+
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column
 	private String nome;
-	
+
 	@Column
 	private boolean tipoInvestimento;
-	
+
 	@Column
 	private Date dataVencimento;
-	
+
 	@Column
 	private boolean tipoCartao;
 

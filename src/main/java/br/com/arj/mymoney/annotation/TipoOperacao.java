@@ -1,6 +1,5 @@
 package br.com.arj.mymoney.annotation;
 
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -13,13 +12,13 @@ import javax.validation.Payload;
 @Documented
 @Retention(RUNTIME)
 @Target(java.lang.annotation.ElementType.FIELD)
-@Constraint(validatedBy = {TipoOperacaoValidator.class})
+@Constraint(validatedBy = { TipoOperacaoValidator.class })
 public @interface TipoOperacao {
 
-    String message() default "Tipo da opera√ß√£o n√£o encontrado";
+	String message() default "Tipo da operaÁ„o n„o encontrado";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
-	
+	Class<? extends Payload>[] payload() default {};
+
 }

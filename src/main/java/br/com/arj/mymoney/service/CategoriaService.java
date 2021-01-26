@@ -8,18 +8,14 @@ import br.com.arj.mymoney.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
-	
-	private CategoriaRepository categoriaRepository;
-	
+
 	@Autowired
-	public CategoriaService(CategoriaRepository categoriaRepository) {
-		this.categoriaRepository = categoriaRepository;
-	}
-	
+	private CategoriaRepository categoriaRepository;
+
 	public CategoriaEntity novaCategoria(String nome) {
 		CategoriaEntity categoriaEntity = new CategoriaEntity();
 		categoriaEntity.setNome(nome);
-		
+
 		return categoriaRepository.save(categoriaEntity);
 	}
 

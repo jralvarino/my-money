@@ -3,60 +3,57 @@ package br.com.arj.mymoney.controller.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import br.com.arj.mymoney.annotation.TipoOperacao;
-import br.com.arj.mymoney.constant.TipoOperacaoEnum;
-import br.com.arj.mymoney.entity.ContaEntity;
-import br.com.arj.mymoney.entity.PessoaEntity;
-import br.com.arj.mymoney.entity.SubCategoriaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OperacaoDTO {
 
-	@NotEmpty(message = "DescriÃ§Ã£o Ã© obrigatÃ³ria")
-	@Size(min = 1, max = 255, message = "DescriÃ§Ã£o deve conter entre {min} e {max} caracteres")
+	@NotEmpty(message = "Descrição é obrigatória")
+	@Size(min = 1, max = 255, message = "Descrição deve conter entre {min} e {max} caracteres")
 	private String descricao;
-	
-	@NotNull(message = "Valor Ã© obrigatÃ³rio")
-	@Positive (message = "Valor deve ser maior que 0")
+
+	@NotNull(message = "Valor é obrigatório")
+	@Positive(message = "Valor deve ser maior que 0")
 	private BigDecimal valor;
-	
-	@NotNull(message = "Parcela Ã© obrigatÃ³rio")
-	@Positive (message = "Parcela deve ser maior que 0")
-	private int parcela;
-	
-	@NotNull(message = "Pago Ã© obrigatÃ³rio")
-	private boolean pago;
-	
+
+	@NotNull(message = "Parcela é obrigatório")
+	@Positive(message = "Parcela deve ser maior que 0")
+	private Integer parcela;
+
+	@NotNull(message = "Campo pago é obrigatório")
+	private Boolean pago;
+
 	@TipoOperacao
-	@NotNull(message = "Tipo da operaÃ§Ã£o Ã© obrigatÃ³rio")
-	private int tipo;
-	
+	@NotNull(message = "Tipo da operação é obrigatório")
+	private String tipo;
+
+	@Size(max = 255, message = "Observação deve conter no máximo {max} caracteres")
 	private String observacao;
-	
-	@NotNull(message = "Data de vencimento Ã© obrigatÃ³ria")
+
+	@NotNull(message = "Data de vencimento é obrigatória")
 	private Date dataVencimento;
-	
-	@NotNull(message = "Conta Ã© obrigatÃ³ria")
+
+	@NotNull(message = "Conta é obrigatória")
 	private Long contaId;
-	
-	@NotNull(message = "ResponsÃ¡vel Ã© obrigatÃ³rio")
+
+	@NotNull(message = "Responsável é obrigatório")
 	private Long responsavelId;
-	
-	@NotNull(message = "Categoria Ã© obrigatÃ³ria")
+
+	@NotNull(message = "Categoria é obrigatória")
 	private Long subCategoriaId;
-	
+
 	private Long contaDestinoId;
-	
+
 }

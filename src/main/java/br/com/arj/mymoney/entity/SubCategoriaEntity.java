@@ -14,15 +14,18 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tbsubcategoria")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubCategoriaEntity {
-	
+
 	@Id
 	private Long id;
-	
+
 	@Column
 	private String nome;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idCategoria")
 	private CategoriaEntity categoria;

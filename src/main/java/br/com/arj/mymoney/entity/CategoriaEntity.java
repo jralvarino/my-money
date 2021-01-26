@@ -14,14 +14,17 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tbcategoria")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoriaEntity {
-	
+
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column
 	private String nome;
 
