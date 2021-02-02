@@ -1,4 +1,4 @@
-package br.com.arj.mymoney.annotation;
+package br.com.arj.mymoney.annotation.tipoOperacao;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

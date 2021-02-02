@@ -8,7 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-import br.com.arj.mymoney.annotation.TipoOperacao;
+import br.com.arj.mymoney.annotation.parcela.ParcelaPattern;
+import br.com.arj.mymoney.annotation.tipoOperacao.TipoOperacao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,14 +29,14 @@ public class OperacaoDTO {
 	@Positive(message = "Valor deve ser maior que 0")
 	private BigDecimal valor;
 
+	@ParcelaPattern(message = "Formado do campo parcela incorreto")
 	@NotNull(message = "Parcela é obrigatório")
-	@Positive(message = "Parcela deve ser maior que 0")
-	private Integer parcela;
+	private String parcela;
 
 	@NotNull(message = "Campo pago é obrigatório")
 	private Boolean pago;
 
-	@TipoOperacao
+	@TipoOperacao(message = "Tipo da operação não encontrado")
 	@NotNull(message = "Tipo da operação é obrigatório")
 	private String tipo;
 

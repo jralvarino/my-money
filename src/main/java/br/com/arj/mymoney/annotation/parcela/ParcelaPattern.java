@@ -1,4 +1,4 @@
-package br.com.arj.mymoney.annotation;
+package br.com.arj.mymoney.annotation.parcela;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -12,10 +12,10 @@ import javax.validation.Payload;
 @Documented
 @Retention(RUNTIME)
 @Target(java.lang.annotation.ElementType.FIELD)
-@Constraint(validatedBy = { TipoOperacaoValidator.class })
-public @interface TipoOperacao {
+@Constraint(validatedBy = { ParcelaPatternValidator.class })
+public @interface ParcelaPattern {
 
-	String message() default "Tipo da operação não encontrado";
+	String message();
 
 	Class<?>[] groups() default {};
 

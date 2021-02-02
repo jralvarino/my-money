@@ -18,16 +18,13 @@ import br.com.arj.mymoney.service.OperacaoService;
 @RequestMapping("/operacao")
 @Validated
 public class OperacaoController {
-	
+
 	@Autowired
 	private OperacaoService operacaoService;
-	
-	@PostMapping(value="novo")
-	public ResponseEntity<?> novo(@RequestBody @Valid OperacaoDTO operacaoEntity){		
+
+	@PostMapping(value = "novo")
+	public ResponseEntity<?> novo(@RequestBody @Valid OperacaoDTO operacaoEntity) {
 		return new ResponseEntity<>(operacaoService.novaOperacao(operacaoEntity), HttpStatus.OK);
 	}
-	
-	
-
 
 }
