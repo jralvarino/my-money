@@ -1,4 +1,4 @@
-package br.com.arj.mymoney.annotation.tipoOperacao;
+package br.com.arj.mymoney.annotation.tipooperacao;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

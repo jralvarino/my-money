@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import br.com.arj.mymoney.annotation.parcela.ParcelaPattern;
-import br.com.arj.mymoney.annotation.tipoOperacao.TipoOperacao;
+import br.com.arj.mymoney.annotation.tipooperacao.TipoOperacao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
