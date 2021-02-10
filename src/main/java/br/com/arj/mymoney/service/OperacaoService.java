@@ -1,5 +1,9 @@
 package br.com.arj.mymoney.service;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -7,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.arj.mymoney.controller.dto.OperacaoDTO;
+import br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO;
 import br.com.arj.mymoney.entity.OperacaoEntity;
 import br.com.arj.mymoney.enums.BusinessExceptionEnum;
+import br.com.arj.mymoney.enums.MesEnum;
 import br.com.arj.mymoney.exception.BusinessException;
 import br.com.arj.mymoney.repository.OperacaoRepository;
 import br.com.arj.mymoney.util.DateUtil;
@@ -45,6 +51,15 @@ public class OperacaoService {
 		}
 
 		return null;
+	}
+
+	public List<OperacaoRespostaDTO> findAllByMes(Long contaId, Long responsavelId, int ano, MesEnum mes) {
+
+		Calendar dataInicio = new GregorianCalendar(ano, mes.getMes(), 1);
+		Calendar dataFinal = new GregorianCalendar(ano, mes.getMes(),
+				dataInicio.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		return operacaoRepository.findOperacoesDoMes(contaId, responsavelId, dataInicio.getTime(), dataFinal.getTime());
 	}
 
 	private void validar(OperacaoDTO operacaoDTO) {

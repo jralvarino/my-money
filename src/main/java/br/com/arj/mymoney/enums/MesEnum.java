@@ -1,8 +1,5 @@
 package br.com.arj.mymoney.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum MesEnum {
 
 	JANEIRO(1), FEVEREIRO(2);
@@ -11,6 +8,10 @@ public enum MesEnum {
 
 	MesEnum(int mes) {
 		this.mes = mes;
+	}
+
+	public int getMes() {
+		return mes - 1;
 	}
 
 }
