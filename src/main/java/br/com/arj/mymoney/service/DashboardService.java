@@ -32,8 +32,10 @@ public class DashboardService {
 			if(dto.getTipo() == TipoOperacaoEnum.RECEITA) {
 				dashboardResponse.somarReceita(dto.getValor());
 				continue;
-			}
+			}			
 		}
+		
+		dashboardResponse.setValorBalanco(dashboardResponse.getValorReceitas().subtract(dashboardResponse.getValorDespesas()));
 		
 		return dashboardResponse;
 		

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import br.com.arj.mymoney.controller.dto.OperacaoDTO;
 import br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO;
 import br.com.arj.mymoney.entity.OperacaoEntity;
+import br.com.arj.mymoney.entity.WalletEntity;
 import br.com.arj.mymoney.enums.BusinessExceptionEnum;
 import br.com.arj.mymoney.enums.MesEnum;
 import br.com.arj.mymoney.exception.BusinessException;
@@ -33,6 +34,10 @@ public class OperacaoService {
 
 	@Autowired
 	private ContaService contaService;
+	
+	@Autowired
+	private WalletService walletRepository;
+
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -42,12 +47,18 @@ public class OperacaoService {
 		validar(operacaoDTO);
 
 		OperacaoEntity operacao = convertDtoToEntity(operacaoDTO);
+		
+		WalletEntity wallet = walletRepository.getWallet();
 
 		while (operacao.getNumeroParcela() <= operacao.getTotalParcelas()) {
 			operacaoRepository.save(criarNovaOperacaoDe(operacao));
 
 			operacao.adicionarParcela();
 			operacao.setDataVencimento(DateUtil.getProximoMes(operacao.getDataVencimento()));
+			
+			if(operacao.isPago()) {
+				walletRepository.updateBalance(wallet, operacao.getTipo(), operacao.getValor());
+			}
 		}
 
 		return null;
