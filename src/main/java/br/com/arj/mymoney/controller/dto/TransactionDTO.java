@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperacaoDTO {
+public class TransactionDTO {
 
 	@NotEmpty(message = "Descrição é obrigatória")
 	@Size(min = 1, max = 255, message = "Descrição deve conter entre {min} e {max} caracteres")

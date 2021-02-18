@@ -29,7 +29,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperacaoEntity {
+public class TransactionEntity {
 
 	@Id
 	@Column
@@ -51,6 +51,8 @@ public class OperacaoEntity {
 	private String observacao;
 
 	private Date dataVencimento;
+
+	private Date paymentDate;
 
 	@ManyToOne
 	private ContaEntity conta;

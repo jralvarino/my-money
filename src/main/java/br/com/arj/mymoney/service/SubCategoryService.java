@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import br.com.arj.mymoney.repository.SubCategoriaRepository;
 
 @Service
-public class SubCategoriaService {
+public class SubCategoryService {
 
 	@Autowired
 	private SubCategoriaRepository subCategoriaRepository;

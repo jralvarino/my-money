@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import br.com.arj.mymoney.repository.ContaRepository;
 
 @Service
-public class ContaService {
+public class AccountService {
 
 	@Autowired
 	private ContaRepository contaRepository;
