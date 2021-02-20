@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class CreateUpdateTransactionResponse {
+public class UpdateTransactionResponse {
 
 	private BigDecimal balance;
 	private TransactionDTO transaction;

@@ -1,5 +1,6 @@
 package br.com.arj.mymoney.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -10,9 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.arj.mymoney.controller.dto.CreateUpdateTransactionResponse;
+import br.com.arj.mymoney.controller.dto.NewTransactionResponse;
 import br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO;
 import br.com.arj.mymoney.controller.dto.TransactionDTO;
+import br.com.arj.mymoney.controller.dto.UpdateTransactionResponse;
 import br.com.arj.mymoney.entity.TransactionEntity;
 import br.com.arj.mymoney.entity.WalletEntity;
 import br.com.arj.mymoney.enums.BusinessExceptionEnum;
@@ -45,29 +47,35 @@ public class TransactionService {
 	private ModelMapper modelMapper;
 
 	@Transactional
-	public CreateUpdateTransactionResponse newTransaction(TransactionDTO transactionDTO) {
+	public NewTransactionResponse newTransaction(TransactionDTO transactionDTO) {
 		validateTransaction(transactionDTO);
 
 		TransactionEntity transaction = convertDtoToEntity(transactionDTO);
 
 		WalletEntity wallet = walletService.getWallet();
 
+		List<TransactionEntity> transactionList = new ArrayList<>();
+
 		while (transaction.getNumeroParcela() <= transaction.getTotalParcelas()) {
-			transactionRepository.save(copyTransaction(transaction));
+			transactionList.add(copyTransaction(transaction));
 
 			transaction.adicionarParcela();
 			transaction.setDataVencimento(DateUtil.getProximoMes(transaction.getDataVencimento()));
 
 			if (transaction.isPago()) {
-				wallet = walletService.changeBalance(wallet, transaction.getTipo(), transaction.getValor(), true);
+				wallet = walletService.updateBalance(wallet, transaction.getTipo(), transaction.getValor());
 			}
 		}
 
-		return createDTOResponse(transaction, wallet);
+		transactionRepository.saveAll(transactionList);
+
+		walletService.saveWallet(wallet);
+
+		return createNewTransactionResponse(transactionList, wallet);
 	}
 
 	@Transactional
-	public CreateUpdateTransactionResponse updateTransaction(Long transactionId, TransactionDTO operacaoDTO) {
+	public UpdateTransactionResponse updateTransaction(Long transactionId, TransactionDTO operacaoDTO) {
 		TransactionEntity transactionWithoutChanges = transactionRepository.findById(transactionId)
 				.orElseThrow(() -> new BusinessException(BusinessExceptionEnum.TRANSACTION_NOT_FOUND));
 
@@ -81,19 +89,19 @@ public class TransactionService {
 		if (hasChangeInValueFields(transactionWithoutChanges, transactionWithChanges)) {
 
 			if (transactionWithoutChanges.isPago()) {
-				wallet = walletService.reverseBalance(transactionWithoutChanges, transactionWithChanges, wallet);
+				wallet = walletService.reverseBalance(transactionWithoutChanges, wallet);
 			}
 
 			if (transactionWithChanges.isPago()) {
-				wallet = walletService.changeBalance(wallet, transactionWithChanges.getTipo(), transactionWithChanges.getValor(), false);
+				wallet = walletService.updateBalance(wallet, transactionWithChanges.getTipo(), transactionWithChanges.getValor());
 			}
 
-			walletService.saveBalance(wallet);
+			walletService.saveWallet(wallet);
 		}
 
 		transactionRepository.save(transactionWithChanges);
 
-		return createDTOResponse(transactionWithChanges, wallet);
+		return createUpdateTransactionResponse(transactionWithChanges, wallet);
 	}
 
 	public List<OperacaoRespostaDTO> findAllByMes(Long contaId, Long responsavelId, int ano, MesEnum mes) {
@@ -124,17 +132,24 @@ public class TransactionService {
 		if (before.getTipo() != changed.getTipo()) {
 			return true;
 		}
-		if (before.getValor() != changed.getValor()) {
+		if (before.getValor().compareTo(changed.getValor()) != 0) {
 			return true;
 		}
 		return false;
 	}
 
-	private CreateUpdateTransactionResponse createDTOResponse(TransactionEntity transactionWithChanges, WalletEntity wallet) {
-		CreateUpdateTransactionResponse responseDTO = new CreateUpdateTransactionResponse();
-		responseDTO.setTransaction(convertEntityToDTO(transactionWithChanges));
-		responseDTO.setBalance(wallet.getBalance());
-		return responseDTO;
+	private UpdateTransactionResponse createUpdateTransactionResponse(TransactionEntity transactionWithChanges, WalletEntity wallet) {
+		UpdateTransactionResponse response = new UpdateTransactionResponse();
+		response.setTransaction(convertEntityToDTO(transactionWithChanges));
+		response.setBalance(wallet.getBalance());
+		return response;
+	}
+
+	private NewTransactionResponse createNewTransactionResponse(List<TransactionEntity> transactionList, WalletEntity wallet) {
+		NewTransactionResponse response = new NewTransactionResponse();
+		transactionList.forEach(transaction -> response.getTransactions().add(convertEntityToDTO(transaction)));
+		response.setBalance(wallet.getBalance());
+		return response;
 	}
 
 	private TransactionEntity copyTransaction(TransactionEntity operacao) {

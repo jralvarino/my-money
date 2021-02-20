@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tbcategoria")
+@Table(name = "tbcategory")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoriaEntity {
+public class CategoryEntity {
 
 	@Id
 	@Column

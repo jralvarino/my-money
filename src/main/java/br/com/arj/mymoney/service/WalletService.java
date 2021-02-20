@@ -24,7 +24,7 @@ public class WalletService {
 				.orElseThrow(() -> new BusinessException(BusinessExceptionEnum.WALLET_NOT_EXIST));
 	}
 
-	public WalletEntity changeBalance(WalletEntity wallet, TipoOperacaoEnum tipo, BigDecimal valor, boolean toPersist) {
+	public WalletEntity updateBalance(WalletEntity wallet, TipoOperacaoEnum tipo, BigDecimal valor) {
 		switch (tipo) {
 		case RECEITA:
 			wallet.setBalance(wallet.getBalance().add(valor));
@@ -36,21 +36,16 @@ public class WalletService {
 			throw new BusinessException(BusinessExceptionEnum.INVALID_TRANSACTION_TYPE);
 		}
 
-		if (toPersist) {
-			return saveBalance(wallet);
-		}
-
 		return wallet;
 	}
 
-	public WalletEntity reverseBalance(TransactionEntity transactionBeforeChanges, TransactionEntity changedTransaction,
-			WalletEntity wallet) {
+	public WalletEntity reverseBalance(TransactionEntity transactionBeforeChanges, WalletEntity wallet) {
 		switch (transactionBeforeChanges.getTipo()) {
 		case RECEITA:
-			wallet.setBalance(wallet.getBalance().subtract(changedTransaction.getValor()));
+			wallet.setBalance(wallet.getBalance().subtract(transactionBeforeChanges.getValor()));
 			break;
 		case DESPESA:
-			wallet.setBalance(wallet.getBalance().add(changedTransaction.getValor()));
+			wallet.setBalance(wallet.getBalance().add(transactionBeforeChanges.getValor()));
 			break;
 		default:
 			throw new BusinessException(BusinessExceptionEnum.INVALID_TRANSACTION_TYPE);
@@ -59,7 +54,7 @@ public class WalletService {
 		return wallet;
 	}
 
-	public WalletEntity saveBalance(WalletEntity wallet) {
+	public WalletEntity saveWallet(WalletEntity wallet) {
 		return walletRepository.save(wallet);
 	}
 

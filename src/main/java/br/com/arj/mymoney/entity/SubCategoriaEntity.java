@@ -28,6 +28,6 @@ public class SubCategoriaEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "idCategoria")
-	private CategoriaEntity categoria;
+	private CategoryEntity categoria;
 
 }
