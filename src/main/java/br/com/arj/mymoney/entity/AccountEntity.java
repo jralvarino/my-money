@@ -1,7 +1,5 @@
 package br.com.arj.mymoney.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,12 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tbconta")
+@Table(name = "tbaccount")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContaEntity {
+public class AccountEntity {
 
 	@Id
 	@Column
@@ -28,15 +26,15 @@ public class ContaEntity {
 	private Long id;
 
 	@Column
-	private String nome;
+	private String name;
 
 	@Column
-	private boolean tipoInvestimento;
+	private boolean investment;
 
 	@Column
-	private Date dataVencimento;
+	private boolean creditCard;
 
 	@Column
-	private boolean tipoCartao;
+	private int dueDay;
 
 }

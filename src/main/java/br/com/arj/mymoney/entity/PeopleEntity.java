@@ -2,9 +2,9 @@ package br.com.arj.mymoney.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -13,21 +13,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tbsubcategoria")
+@Table(name = "tbpeople")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubCategoriaEntity {
+public class PeopleEntity {
 
 	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Column
-	private String nome;
-
-	@ManyToOne
-	@JoinColumn(name = "idCategoria")
-	private CategoryEntity categoria;
+	private String name;
 
 }

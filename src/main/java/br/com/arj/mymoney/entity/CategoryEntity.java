@@ -26,6 +26,6 @@ public class CategoryEntity {
 	private Long id;
 
 	@Column
-	private String nome;
+	private String name;
 
 }

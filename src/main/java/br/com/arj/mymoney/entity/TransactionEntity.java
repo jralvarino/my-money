@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tboperacao")
+@Table(name = "tbtransaction")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,67 +37,67 @@ public class TransactionEntity {
 	private Long id;
 
 	@Column
-	private String descricao;
+	private String description;
 
-	private BigDecimal valor;
+	private BigDecimal value;
 
-	private String parcela;
+	private String installments;
 
-	private boolean pago;
+	private boolean paid;
 
 	@Enumerated(EnumType.STRING)
-	private TipoOperacaoEnum tipo;
+	private TipoOperacaoEnum type;
 
-	private String observacao;
+	private String observation;
 
-	private Date dataVencimento;
+	private Date dueDate;
 
 	private Date paymentDate;
 
 	@ManyToOne
-	private ContaEntity conta;
+	private AccountEntity account;
 
 	@ManyToOne
-	private PessoaEntity responsavel;
+	private PeopleEntity responsible;
 
 	@ManyToOne
-	private SubCategoriaEntity subCategoria;
+	private SubCategoryEntity subCategory;
 
 	@ManyToOne
-	private ContaEntity contaDestino;
+	private AccountEntity destinationAccount;
 
 	@Transient
-	private int numeroParcela;
+	private int installmentsNumber;
 
 	@Transient
-	private int totalParcelas;
+	private int totalInstallments;
 
 	public void adicionarParcela() {
-		numeroParcela++;
-		if (!parcela.equals(Constants.OPERACAO_RECORRENTE)) {
-			parcela = numeroParcela + "/" + totalParcelas;
+		installmentsNumber++;
+		if (!installments.equals(Constants.OPERACAO_RECORRENTE)) {
+			installments = installmentsNumber + "/" + totalInstallments;
 		}
 	}
 
-	public void setParcela(String parcela) {
+	public void setInstallments(String installments) {
 		try {
-			this.parcela = parcela;
+			this.installments = installments;
 
-			if (this.parcela.equals(Constants.OPERACAO_RECORRENTE)) {
-				numeroParcela = 1;
-				totalParcelas = Constants.MAXIMO_DE_PARCELAS;
+			if (this.installments.equals(Constants.OPERACAO_RECORRENTE)) {
+				installmentsNumber = 1;
+				totalInstallments = Constants.MAXIMO_DE_PARCELAS;
 				return;
 			}
 
-			if (this.parcela.equals(Constants.SOMENTE_UMA_PARCELA)) {
-				numeroParcela = 1;
-				totalParcelas = 1;
+			if (this.installments.equals(Constants.SOMENTE_UMA_PARCELA)) {
+				installmentsNumber = 1;
+				totalInstallments = 1;
 				return;
 			}
 
-			String[] parcelamento = this.parcela.split("/");
-			numeroParcela = Integer.parseInt(parcelamento[0]);
-			totalParcelas = Integer.parseInt(parcelamento[1]);
+			String[] installment = this.installments.split("/");
+			installmentsNumber = Integer.parseInt(installment[0]);
+			totalInstallments = Integer.parseInt(installment[1]);
 		} catch (Exception e) {
 			throw new BusinessException(BusinessExceptionEnum.ERRO_AO_CRIAR_O_PARCELAMENTO);
 		}

@@ -12,7 +12,7 @@ import br.com.arj.mymoney.entity.TransactionEntity;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
 
-	@Query("SELECT new br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO(op.id, op.descricao, op.valor, op.parcela, op.pago, op.tipo, op.dataVencimento, op.conta.nome, op.subCategoria.nome) FROM TransactionEntity op WHERE op.conta.id = :contaId and op.responsavel.id = :responsavelId and op.dataVencimento >= :dataInicial and op.dataVencimento <= :dataFinal")
+	@Query("SELECT new br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO(op.id, op.description, op.value, op.installments, op.paid, op.type, op.dueDate, op.account.name, op.subCategory.name) FROM TransactionEntity op WHERE op.account.id = :contaId and op.responsible.id = :responsavelId and op.dueDate >= :dataInicial and op.dueDate <= :dataFinal ORDER BY op.dueDate, op.id")
 	List<OperacaoRespostaDTO> findOperacoesDoMes(@Param("contaId") Long contaId, @Param("responsavelId") Long responsavelId,
 			@Param("dataInicial") Date dataInicial, @Param("dataFinal") Date dataFinal);
 

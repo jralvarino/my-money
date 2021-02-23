@@ -56,14 +56,14 @@ public class TransactionService {
 
 		List<TransactionEntity> transactionList = new ArrayList<>();
 
-		while (transaction.getNumeroParcela() <= transaction.getTotalParcelas()) {
+		while (transaction.getInstallmentsNumber() <= transaction.getTotalInstallments()) {
 			transactionList.add(copyTransaction(transaction));
 
 			transaction.adicionarParcela();
-			transaction.setDataVencimento(DateUtil.getProximoMes(transaction.getDataVencimento()));
+			transaction.setDueDate(DateUtil.getProximoMes(transaction.getDueDate()));
 
-			if (transaction.isPago()) {
-				wallet = walletService.updateBalance(wallet, transaction.getTipo(), transaction.getValor());
+			if (transaction.isPaid()) {
+				wallet = walletService.updateBalance(wallet, transaction.getType(), transaction.getValue());
 			}
 		}
 
@@ -88,12 +88,12 @@ public class TransactionService {
 
 		if (hasChangeInValueFields(transactionWithoutChanges, transactionWithChanges)) {
 
-			if (transactionWithoutChanges.isPago()) {
+			if (transactionWithoutChanges.isPaid()) {
 				wallet = walletService.reverseBalance(transactionWithoutChanges, wallet);
 			}
 
-			if (transactionWithChanges.isPago()) {
-				wallet = walletService.updateBalance(wallet, transactionWithChanges.getTipo(), transactionWithChanges.getValor());
+			if (transactionWithChanges.isPaid()) {
+				wallet = walletService.updateBalance(wallet, transactionWithChanges.getType(), transactionWithChanges.getValue());
 			}
 
 			walletService.saveWallet(wallet);
@@ -112,27 +112,27 @@ public class TransactionService {
 	}
 
 	private void validateTransaction(TransactionDTO operacaoDTO) {
-		if (!subCategoryService.existSubCategoria(operacaoDTO.getSubCategoriaId())) {
+		if (!subCategoryService.existSubCategoria(operacaoDTO.getSubCategoryId())) {
 			throw new BusinessException(BusinessExceptionEnum.CATEGORIA_NAO_ENCONTRADA);
 		}
 
-		if (!responsibleService.existResponsavel(operacaoDTO.getResponsavelId())) {
+		if (!responsibleService.existResponsavel(operacaoDTO.getResponsibleId())) {
 			throw new BusinessException(BusinessExceptionEnum.RESPONSAVEL_NAO_ENCONTRATO);
 		}
 
-		if (!accountService.existConta(operacaoDTO.getContaId())) {
+		if (!accountService.existConta(operacaoDTO.getAccountId())) {
 			throw new BusinessException(BusinessExceptionEnum.CONTA_NAO_ENCONTRADA);
 		}
 	}
 
 	private boolean hasChangeInValueFields(TransactionEntity before, TransactionEntity changed) {
-		if (before.isPago() != changed.isPago()) {
+		if (before.isPaid() != changed.isPaid()) {
 			return true;
 		}
-		if (before.getTipo() != changed.getTipo()) {
+		if (before.getType() != changed.getType()) {
 			return true;
 		}
-		if (before.getValor().compareTo(changed.getValor()) != 0) {
+		if (before.getValue().compareTo(changed.getValue()) != 0) {
 			return true;
 		}
 		return false;
@@ -153,9 +153,10 @@ public class TransactionService {
 	}
 
 	private TransactionEntity copyTransaction(TransactionEntity operacao) {
-		return new TransactionEntity(null, operacao.getDescricao(), operacao.getValor(), operacao.getParcela(), operacao.isPago(), operacao.getTipo(),
-				operacao.getObservacao(), operacao.getDataVencimento(), operacao.getPaymentDate(), operacao.getConta(), operacao.getResponsavel(),
-				operacao.getSubCategoria(), operacao.getContaDestino(), operacao.getNumeroParcela(), operacao.getTotalParcelas());
+		return new TransactionEntity(null, operacao.getDescription(), operacao.getValue(), operacao.getInstallments(), operacao.isPaid(),
+				operacao.getType(), operacao.getObservation(), operacao.getDueDate(), operacao.getPaymentDate(), operacao.getAccount(),
+				operacao.getResponsible(), operacao.getSubCategory(), operacao.getDestinationAccount(), operacao.getInstallmentsNumber(),
+				operacao.getTotalInstallments());
 	}
 
 	private TransactionEntity convertDtoToEntity(TransactionDTO operacaoDTO) {

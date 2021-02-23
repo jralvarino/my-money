@@ -160,7 +160,7 @@ class TransactionServiceTest {
 		UpdateTransactionResponse response = transactionService.updateTransaction(Mockito.anyLong(), changedTransaction);
 
 		Mockito.verify(walletService, Mockito.times(1)).reverseBalance(Mockito.any(), Mockito.any());
-		Mockito.verify(walletService, Mockito.times(0)).updateBalance(wallet, beforeTransaction.getTipo(), new BigDecimal(0));
+		Mockito.verify(walletService, Mockito.times(0)).updateBalance(wallet, beforeTransaction.getType(), new BigDecimal(0));
 		Mockito.verify(walletService, Mockito.times(1)).saveWallet(Mockito.any());
 		Mockito.verify(transactionRepository, Mockito.times(1)).save(Mockito.any());
 
@@ -183,7 +183,7 @@ class TransactionServiceTest {
 		UpdateTransactionResponse response = transactionService.updateTransaction(Mockito.anyLong(), changedTransaction);
 
 		Mockito.verify(walletService, Mockito.times(0)).reverseBalance(Mockito.any(), Mockito.any());
-		Mockito.verify(walletService, Mockito.times(0)).updateBalance(wallet, beforeTransaction.getTipo(), new BigDecimal(0));
+		Mockito.verify(walletService, Mockito.times(0)).updateBalance(wallet, beforeTransaction.getType(), new BigDecimal(0));
 		Mockito.verify(walletService, Mockito.times(1)).saveWallet(Mockito.any());
 		Mockito.verify(transactionRepository, Mockito.times(1)).save(Mockito.any());
 
@@ -348,22 +348,22 @@ class TransactionServiceTest {
 	private TransactionDTO createTransactionDTOWith(TipoOperacaoEnum type, BigDecimal value, boolean isPayed, String installments, Long subCategoryId,
 			Long responsible, Long accountId) {
 		TransactionDTO changedTransaction = new TransactionDTO();
-		changedTransaction.setTipo(type.toString());
-		changedTransaction.setValor(value);
-		changedTransaction.setPago(isPayed);
-		changedTransaction.setParcela(installments);
-		changedTransaction.setSubCategoriaId(subCategoryId);
-		changedTransaction.setResponsavelId(responsible);
-		changedTransaction.setContaId(accountId);
-		changedTransaction.setDataVencimento(new Date());
+		changedTransaction.setType(type.toString());
+		changedTransaction.setValue(value);
+		changedTransaction.setPaid(isPayed);
+		changedTransaction.setInstallments(installments);
+		changedTransaction.setSubCategoryId(subCategoryId);
+		changedTransaction.setResponsibleId(responsible);
+		changedTransaction.setAccountId(accountId);
+		changedTransaction.setDueDate(new Date());
 		return changedTransaction;
 	}
 
 	private TransactionEntity createTransactionEntityWith(TipoOperacaoEnum type, BigDecimal value, boolean isPayed) {
 		TransactionEntity beforeTransaction = new TransactionEntity();
-		beforeTransaction.setTipo(type);
-		beforeTransaction.setValor(value);
-		beforeTransaction.setPago(isPayed);
+		beforeTransaction.setType(type);
+		beforeTransaction.setValue(value);
+		beforeTransaction.setPaid(isPayed);
 		return beforeTransaction;
 	}
 

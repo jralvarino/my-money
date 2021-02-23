@@ -40,12 +40,12 @@ public class WalletService {
 	}
 
 	public WalletEntity reverseBalance(TransactionEntity transactionBeforeChanges, WalletEntity wallet) {
-		switch (transactionBeforeChanges.getTipo()) {
+		switch (transactionBeforeChanges.getType()) {
 		case RECEITA:
-			wallet.setBalance(wallet.getBalance().subtract(transactionBeforeChanges.getValor()));
+			wallet.setBalance(wallet.getBalance().subtract(transactionBeforeChanges.getValue()));
 			break;
 		case DESPESA:
-			wallet.setBalance(wallet.getBalance().add(transactionBeforeChanges.getValor()));
+			wallet.setBalance(wallet.getBalance().add(transactionBeforeChanges.getValue()));
 			break;
 		default:
 			throw new BusinessException(BusinessExceptionEnum.INVALID_TRANSACTION_TYPE);

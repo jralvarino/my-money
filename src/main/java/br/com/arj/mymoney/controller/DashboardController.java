@@ -21,8 +21,7 @@ public class DashboardController {
 
 	@GetMapping(value = "todos-mensal")
 	public ResponseEntity<?> findAllDashboardMensal() {
-		return new ResponseEntity<>(dashboardService.getDashboardMensal(1l, 1L, 2021, MesEnum.FEVEREIRO),
-				HttpStatus.OK);
+		return new ResponseEntity<>(dashboardService.getDashboardMensal(1l, 1L, 2021, MesEnum.MARCO), HttpStatus.OK);
 	}
 
 }
