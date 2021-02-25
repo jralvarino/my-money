@@ -35,6 +35,6 @@ public class AccountEntity {
 	private boolean creditCard;
 
 	@Column
-	private int dueDay;
+	private Integer dueDay;
 
 }

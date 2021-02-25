@@ -1,8 +1,6 @@
 package br.com.arj.mymoney.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,15 +9,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.arj.mymoney.controller.dto.DashboardFilter;
 import br.com.arj.mymoney.controller.dto.NewTransactionResponse;
-import br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO;
 import br.com.arj.mymoney.controller.dto.TransactionDTO;
 import br.com.arj.mymoney.controller.dto.UpdateTransactionResponse;
 import br.com.arj.mymoney.entity.TransactionEntity;
 import br.com.arj.mymoney.entity.WalletEntity;
 import br.com.arj.mymoney.enums.BusinessExceptionEnum;
-import br.com.arj.mymoney.enums.MesEnum;
 import br.com.arj.mymoney.exception.BusinessException;
+import br.com.arj.mymoney.repository.DashboardTransactionRepository;
 import br.com.arj.mymoney.repository.TransactionRepository;
 import br.com.arj.mymoney.util.DateUtil;
 import lombok.Setter;
@@ -104,11 +102,8 @@ public class TransactionService {
 		return createUpdateTransactionResponse(transactionWithChanges, wallet);
 	}
 
-	public List<OperacaoRespostaDTO> findAllByMes(Long contaId, Long responsavelId, int ano, MesEnum mes) {
-		Calendar dataInicio = new GregorianCalendar(ano, mes.getMes(), 1);
-		Calendar dataFinal = new GregorianCalendar(ano, mes.getMes(), dataInicio.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-		return transactionRepository.findOperacoesDoMes(contaId, responsavelId, dataInicio.getTime(), dataFinal.getTime());
+	public List<TransactionEntity> findAllByMes(DashboardFilter filter) {
+		return transactionRepository.findAll(new DashboardTransactionRepository(filter));
 	}
 
 	private void validateTransaction(TransactionDTO operacaoDTO) {

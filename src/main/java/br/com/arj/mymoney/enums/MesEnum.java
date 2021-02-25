@@ -2,7 +2,7 @@ package br.com.arj.mymoney.enums;
 
 public enum MesEnum {
 
-	JANEIRO(1), FEVEREIRO(2), MARCO(3);
+	JANEIRO(1), FEVEREIRO(2), MARCO(3), ABRIL(4);
 
 	private int mes;
 

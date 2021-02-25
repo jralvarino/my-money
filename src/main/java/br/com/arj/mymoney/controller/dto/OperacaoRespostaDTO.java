@@ -17,20 +17,20 @@ public class OperacaoRespostaDTO {
 
 	private Long id;
 
-	private String descricao;
+	private String description;
 
-	private BigDecimal valor;
+	private BigDecimal value;
 
-	private String parcela;
+	private String installments;
 
-	private boolean pago;
+	private boolean paid;
 
-	private TipoOperacaoEnum tipo;
+	private TipoOperacaoEnum type;
 
-	private Date dataVencimento;
+	private Date dueDate;
 
-	private String conta;
+	private String account;
 
-	private String categoria;
+	private String subCategory;
 
 }
