@@ -31,9 +31,8 @@ public class DashboardTransactionRepository implements Specification<Transaction
 	public Predicate toPredicate(Root<TransactionEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 		List<Predicate> predicates = new ArrayList<>();
 
-		Calendar initialDate = new GregorianCalendar(filter.getYear(), filter.getMonth().getMes(), 1);
-		Calendar finishDate = new GregorianCalendar(filter.getYear(), filter.getMonth().getMes(),
-				initialDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Calendar initialDate = new GregorianCalendar(filter.getYear(), (filter.getMonth() - 1), 1);
+		Calendar finishDate = new GregorianCalendar(filter.getYear(), (filter.getMonth() - 1), initialDate.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		predicates.add(criteriaBuilder.between(root.get("dueDate"), initialDate.getTime(), finishDate.getTime()));
 
