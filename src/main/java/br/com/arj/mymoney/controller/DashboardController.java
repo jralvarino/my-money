@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.arj.mymoney.controller.dto.DashboardFilter;
+import br.com.arj.mymoney.controller.dto.request.DashboardFilter;
 import br.com.arj.mymoney.service.DashboardService;
 
 @RestController

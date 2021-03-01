@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.arj.mymoney.controller.dto.DashboardFilter;
 import br.com.arj.mymoney.controller.dto.DashboardRespostaDTO;
 import br.com.arj.mymoney.controller.dto.OperacaoRespostaDTO;
+import br.com.arj.mymoney.controller.dto.request.DashboardFilter;
 import br.com.arj.mymoney.entity.TransactionEntity;
 import br.com.arj.mymoney.enums.BusinessExceptionEnum;
 import br.com.arj.mymoney.exception.BusinessException;

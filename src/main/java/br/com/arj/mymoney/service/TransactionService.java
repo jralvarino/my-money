@@ -9,10 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.arj.mymoney.controller.dto.DashboardFilter;
 import br.com.arj.mymoney.controller.dto.NewTransactionResponse;
 import br.com.arj.mymoney.controller.dto.TransactionDTO;
 import br.com.arj.mymoney.controller.dto.UpdateTransactionResponse;
+import br.com.arj.mymoney.controller.dto.request.DashboardFilter;
 import br.com.arj.mymoney.entity.TransactionEntity;
 import br.com.arj.mymoney.entity.WalletEntity;
 import br.com.arj.mymoney.enums.BusinessExceptionEnum;

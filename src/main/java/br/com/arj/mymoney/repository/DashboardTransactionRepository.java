@@ -14,7 +14,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import br.com.arj.mymoney.controller.dto.DashboardFilter;
+import br.com.arj.mymoney.controller.dto.request.DashboardFilter;
 import br.com.arj.mymoney.entity.AccountEntity;
 import br.com.arj.mymoney.entity.PeopleEntity;
 import br.com.arj.mymoney.entity.TransactionEntity;
@@ -45,6 +45,8 @@ public class DashboardTransactionRepository implements Specification<Transaction
 			Join<TransactionEntity, PeopleEntity> responsibleJoin = root.join("responsible", JoinType.INNER);
 			predicates.add(criteriaBuilder.equal(responsibleJoin.get("id"), filter.getResponsibleId()));
 		}
+
+		query.orderBy(criteriaBuilder.asc(root.get("dueDate")), criteriaBuilder.asc(root.get("paid")), criteriaBuilder.asc(root.get("id")));
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 	}
