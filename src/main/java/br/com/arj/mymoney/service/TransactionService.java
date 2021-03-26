@@ -1,7 +1,11 @@
 package br.com.arj.mymoney.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -82,24 +86,35 @@ public class TransactionService {
 		TransactionEntity transactionWithChanges = convertDtoToEntity(operacaoDTO);
 		transactionWithChanges.setId(transactionId);
 
-		WalletEntity wallet = walletService.getWallet();
-
-		if (hasChangeInValueFields(transactionWithoutChanges, transactionWithChanges)) {
-
-			if (transactionWithoutChanges.isPaid()) {
-				wallet = walletService.reverseBalance(transactionWithoutChanges, wallet);
-			}
-
-			if (transactionWithChanges.isPaid()) {
-				wallet = walletService.updateBalance(wallet, transactionWithChanges.getType(), transactionWithChanges.getValue());
-			}
-
-			walletService.saveWallet(wallet);
-		}
+		WalletEntity wallet = calculateWalletBalance(transactionWithoutChanges, transactionWithChanges);
 
 		transactionRepository.save(transactionWithChanges);
 
 		return createUpdateTransactionResponse(transactionWithChanges, wallet);
+	}
+
+	@Transactional
+	public void updateToPaid(String transactionIds) {
+		List<Long> listIds = Stream.of(transactionIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+
+		for (Long transactionId : listIds) {
+			TransactionEntity transactionWithoutChanges = transactionRepository.findById(transactionId)
+					.orElseThrow(() -> new BusinessException(BusinessExceptionEnum.TRANSACTION_NOT_FOUND));
+
+			TransactionEntity transactionWithChanges = copyTransaction(transactionWithoutChanges);
+			transactionWithChanges.setId(transactionId);
+			transactionWithChanges.setPaid(true);
+			transactionWithChanges.setPaymentDate(new Date());
+
+			WalletEntity wallet = calculateWalletBalance(transactionWithoutChanges, transactionWithChanges);
+
+			transactionRepository.save(transactionWithChanges);
+		}
+	}
+
+	// TODO rever esse metodo
+	public Optional<TransactionEntity> loadById(long transactionId) {
+		return transactionRepository.findById(transactionId);
 	}
 
 	public List<TransactionEntity> findAllByMes(DashboardFilter filter) {
@@ -118,6 +133,24 @@ public class TransactionService {
 		if (!accountService.existConta(operacaoDTO.getAccountId())) {
 			throw new BusinessException(BusinessExceptionEnum.CONTA_NAO_ENCONTRADA);
 		}
+	}
+
+	private WalletEntity calculateWalletBalance(TransactionEntity transactionWithoutChanges, TransactionEntity transactionWithChanges) {
+		WalletEntity wallet = walletService.getWallet();
+
+		if (hasChangeInValueFields(transactionWithoutChanges, transactionWithChanges)) {
+
+			if (transactionWithoutChanges.isPaid()) {
+				wallet = walletService.reverseBalance(transactionWithoutChanges, wallet);
+			}
+
+			if (transactionWithChanges.isPaid()) {
+				wallet = walletService.updateBalance(wallet, transactionWithChanges.getType(), transactionWithChanges.getValue());
+			}
+
+			walletService.saveWallet(wallet);
+		}
+		return wallet;
 	}
 
 	private boolean hasChangeInValueFields(TransactionEntity before, TransactionEntity changed) {

@@ -33,4 +33,6 @@ public class OperacaoRespostaDTO {
 
 	private String subCategory;
 
+	private String responsible;
+
 }

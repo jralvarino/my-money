@@ -46,7 +46,7 @@ public class DashboardTransactionRepository implements Specification<Transaction
 			predicates.add(criteriaBuilder.equal(responsibleJoin.get("id"), filter.getResponsibleId()));
 		}
 
-		query.orderBy(criteriaBuilder.asc(root.get("dueDate")), criteriaBuilder.asc(root.get("paid")), criteriaBuilder.asc(root.get("id")));
+		query.orderBy(criteriaBuilder.asc(root.get("dueDate")), criteriaBuilder.desc(root.get("paid")), criteriaBuilder.asc(root.get("id")));
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 	}

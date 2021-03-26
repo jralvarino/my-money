@@ -19,6 +19,9 @@ public class DashboardService {
 	@Autowired
 	private TransactionService operacaoService;
 
+	@Autowired
+	private WalletService walletService;
+
 	public DashboardRespostaDTO getDashboardMensal(DashboardFilter dashboardRequestDTO) {
 
 		List<TransactionEntity> transactionList = operacaoService.findAllByMes(dashboardRequestDTO);
@@ -39,13 +42,15 @@ public class DashboardService {
 				throw new BusinessException(BusinessExceptionEnum.INVALID_TRANSACTION_TYPE);
 			}
 			OperacaoRespostaDTO dto = new OperacaoRespostaDTO(entity.getId(), entity.getDescription(), entity.getValue(), entity.getInstallments(),
-					entity.isPaid(), entity.getType(), entity.getDueDate(), entity.getAccount().getName(), entity.getSubCategory().getName());
+					entity.isPaid(), entity.getType(), entity.getDueDate(), entity.getAccount().getName(), entity.getSubCategory().getName(),
+					entity.getResponsible().getName());
 			transactionDTOList.add(dto);
 
 		}
 
-		dashboardResponse.setValorBalanco(dashboardResponse.getValorReceitas().subtract(dashboardResponse.getValorDespesas()));
 		dashboardResponse.setTransacoes(transactionDTOList);
+		dashboardResponse.setValorBalanco(dashboardResponse.getValorReceitas().subtract(dashboardResponse.getValorDespesas()));
+		dashboardResponse.setValorSaldo(walletService.getWallet().getBalance());
 
 		return dashboardResponse;
 
