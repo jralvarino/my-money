@@ -35,7 +35,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	private ResponseEntity<Object> createResponse(List<String> details, HttpStatus httpStatusCode) {
-		ErrorResponse error = new ErrorResponse("A validação dos dados falhou", details);
+		ErrorResponse error = new ErrorResponse("A validaÃ§Ã£o dos dados falhou", details);
 
 		return new ResponseEntity<>(error, httpStatusCode);
 	}
