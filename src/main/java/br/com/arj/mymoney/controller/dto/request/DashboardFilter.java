@@ -7,8 +7,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class DashboardFilter implements Serializable {
 
@@ -17,8 +19,8 @@ public class DashboardFilter implements Serializable {
 	private int year;
 
 	@NotNull
-	@Min(value = 1, message = "O campo mês deve ser maior que ou igual à 1")
-	@Max(value = 12, message = "O campo mês deve ser menor que ou igual à 12")
+	@Min(value = 1, message = "O campo mï¿½s deve ser maior que ou igual ï¿½ 1")
+	@Max(value = 12, message = "O campo mï¿½s deve ser menor que ou igual ï¿½ 12")
 	private int month;
 
 	@Positive

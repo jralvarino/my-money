@@ -20,7 +20,7 @@ import br.com.arj.mymoney.controller.dto.TransactionDTO;
 import br.com.arj.mymoney.service.TransactionService;
 
 @RestController
-@RequestMapping("/operacao")
+@RequestMapping("/transaction")
 @Validated
 public class OperacaoController {
 
@@ -32,8 +32,8 @@ public class OperacaoController {
 		return new ResponseEntity<>(operacaoService.loadById(transactionId), HttpStatus.OK);
 	}
 
-	@PostMapping(value = "novo")
-	public ResponseEntity<?> novo(@RequestBody @Valid TransactionDTO operacaoEntity) {
+	@PostMapping(value = "create")
+	public ResponseEntity<?> create(@RequestBody @Valid TransactionDTO operacaoEntity) {
 		return new ResponseEntity<>(operacaoService.newTransaction(operacaoEntity), HttpStatus.OK);
 	}
 

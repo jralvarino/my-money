@@ -21,38 +21,38 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TransactionDTO {
 
-	@NotEmpty(message = "Descrição é obrigatória")
-	@Size(min = 1, max = 255, message = "Descrição deve conter entre {min} e {max} caracteres")
+	@NotEmpty(message = "DescriÃ§Ã£o Ã© obrigatÃ³ria")
+	@Size(min = 1, max = 255, message = "DescriÃ§Ã£o deve conter entre {min} e {max} caracteres")
 	private String description;
 
-	@NotNull(message = "Valor é obrigatório")
+	@NotNull(message = "Valor ï¿½ obrigatï¿½rio")
 	@Positive(message = "Valor deve ser maior que 0")
 	private BigDecimal value;
 
 	@ParcelaPattern(message = "Formado do campo parcela incorreto")
-	@NotNull(message = "Parcela é obrigatório")
+	@NotNull(message = "Parcela ï¿½ obrigatï¿½rio")
 	private String installments;
 
-	@NotNull(message = "Campo pago é obrigatório")
+	@NotNull(message = "Campo pago ï¿½ obrigatï¿½rio")
 	private Boolean paid;
 
-	@TipoOperacao(message = "Tipo da operação não encontrado")
-	@NotNull(message = "Tipo da operação é obrigatório")
+	@TipoOperacao(message = "Tipo da operaï¿½ï¿½o nï¿½o encontrado")
+	@NotNull(message = "Tipo da operaï¿½ï¿½o ï¿½ obrigatï¿½rio")
 	private String type;
 
-	@Size(max = 255, message = "Observação deve conter no máximo {max} caracteres")
+	@Size(max = 255, message = "Observaï¿½ï¿½o deve conter no mï¿½ximo {max} caracteres")
 	private String observation;
 
-	@NotNull(message = "Data de vencimento é obrigatória")
+	@NotNull(message = "Data de vencimento ï¿½ obrigatï¿½ria")
 	private Date dueDate;
 
-	@NotNull(message = "Conta é obrigatória")
+	@NotNull(message = "Conta ï¿½ obrigatï¿½ria")
 	private Long accountId;
 
-	@NotNull(message = "Responsável é obrigatório")
+	@NotNull(message = "Responsï¿½vel ï¿½ obrigatï¿½rio")
 	private Long responsibleId;
 
-	@NotNull(message = "Categoria é obrigatória")
+	@NotNull(message = "Categoria ï¿½ obrigatï¿½ria")
 	private Long subCategoryId;
 
 	private Long destinationAccountId;
